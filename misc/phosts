@@ -1,0 +1,4 @@
+#!/bin/sh
+
+domain=$(hostname -d)
+dig SRV _x-puppet._tcp.${domain} | grep ^_x-puppet | awk '{print $8}'

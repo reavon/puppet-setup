@@ -1,0 +1,5 @@
+#!/bin/sh
+
+domain=$(hostname -d)
+
+dig SRV _x-puppet-mcollective._tcp.${domain} | grep ^_x-puppet-mcollective | awk '{print $8}'

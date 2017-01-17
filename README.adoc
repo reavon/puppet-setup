@@ -1,0 +1,142 @@
+= Puppet Infrastructure
+
+== Infrastructure Provided
+
+This script provides the necessary configurations provide a complete Puppet and MCollective Infrastructure.The Services and Nodes in Table 1 illustrate how the components will be installed.
+
+.Table Service / Node Relationships
+|===
+| Service | Node
+
+| Puppet Server
+| `an-ua-vr-ps-001`
+
+| Puppet Agent
+| `all nodes`
+
+| PuppetDB
+| `an-ua-vr-pd-001`
+
+| PostgreSQL for PuppetDB
+| `an-ua-vr-pp-001`
+
+| MCollective Message Brokers
+| `an-ua-vr-mb-001 an-ua-vr-mb-002 an-ua-vr-mb-003`
+
+| MCollective Servers
+| `all nodes`
+
+| MCollective Client
+| `an-xx-pf-ws-001`
+|===
+
+== DNS Records
+
+Each server should have DNS A records set. This Puppet Infrastructure expects the following SRV records:
+
+.Table DNS SRV Records
+|===
+| SRV Records | Server
+
+| `_x-puppet._tcp.`
+| Puppet Server(s)
+
+| `_x-puppet-mcollective.`
+| MCollective Brokers
+
+| `_x-puppet-db._tcp.`
+| PuppetDB
+|===
+
+== Firewall Rules
+
+The following firewall rules are required for communication between components.
+
+.Table Firewall Rules
+|===
+| Source | Destination | Port
+
+| mco clients
+| mco brokers
+| 4222
+
+| mco brokers
+| mco brokers
+| 4223
+
+| puppetdb
+| postgresql
+| 5432
+
+| puppet-agents
+| puppet-server(s)
+| 8140
+
+| puppet-server(s)
+| puppetdb
+| 8180
+
+| mco brokers
+| localhost
+| 8222
+|===
+
+== Node Setup
+
+Kickstart all nodes with this kickstart file:
+
+http://boot.amerinap.com/ks/ks.cfg
+
+== Puppet Server Setup
+
+scp `puppet-install.sh` to puppet-master and execute it.
+
+== Puppet Agent Setup
+
+Puppet Agent is setup during kickstart. Wait for all nodes to request a certificate. Sign all puppet certs.
+
+Wait.
+
+When all servers have had a few puppet runs to work things out amongst themselves, usually about 30 minutes everything will be setup except the `mco` client.
+
+== mco Client Setup
+
+On your workstation:
+
+ mco choria request_cert
+
+Login to the puppet-master and issue
+
+ puppet cert sign $USER.mcollective
+
+If you sign the certifcate within 240 seconds of the request, the mco config will be downloaded to the requesting workstation and user account automatically.
+
+Now on your workstation:
+
+ mco puppet status
+
+That's it.
+
+== Misc Scripts
+
+.Table Miscellaneous Scripts
+|===
+| Script | Purpose
+
+| `bhoss`
+| Looks up Message Brokers via DNS SRV records
+
+| `phosts`
+| Looks up Puppet Servers via DNS SRV records
+|===
+
+== Useful websites
+https://docs.puppet.com/puppet[Puppet Documentation]
+
+https://docs.puppet.com/mcollective/reference/basic/basic_cli_usage.html[MCollective CLI Usage]
+
+https://docs.puppet.com/puppetdb/latest/api/query/v4/pql.html[Puppet Query Language]
+
+http://choria.io[Choria]
+
+http://nats.io[NATS]
