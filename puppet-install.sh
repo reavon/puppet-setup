@@ -285,7 +285,7 @@ cat << HIERA > /etc/puppetlabs/code/environments/${env}/hiera.yaml
 ---
 
 version: 4
-datadir: "data"
+datadir: data
 
 # priority is from top to bottom
 hierarchy:
@@ -347,7 +347,8 @@ firewalld::services:
 # puppetdb::
 # puppetdb_server hostname is defined here:
 # /etc/puppetlabs/code/environments/${environment}/data/role/puppet_puppetdb_infra.yaml
-puppetdb::master::config::puppetdb_server: "%{hiera('puppetdb_server')}"
+# puppetdb::master::config::puppetdb_server: "%{hiera('puppetdb_server')}"
+puppetdb::master::config::puppetdb_server: "${puppetdb_server}.${domain}"
 NODE
 
 cat << NODE >> /etc/puppetlabs/code/environments/${environment}/data/nodes/${puppetdb_database_host}.${domain}.yaml
@@ -383,7 +384,8 @@ firewalld::services:
 # puppetdb::
 # puppetdb_database_host hostname is defined here:
 # /etc/puppetlabs/code/environments/${environment}/data/role/puppet_puppetdb_infra.yaml
-puppetdb::server::database_host: "%{hiera('puppetdb_database_host')}"
+# puppetdb::server::database_host: "%{hiera('puppetdb_database_host')}"
+puppetdb::server::database_host: "${puppetdb_database_host}.${domain}"
 puppetdb::server::manage_firewall: false
 NODE
 
