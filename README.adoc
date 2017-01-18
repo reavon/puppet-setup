@@ -31,7 +31,7 @@ This script provides the necessary configurations to provide a complete Puppet a
 
 == DNS Records
 
-Each server should have DNS A records set. This Puppet Infrastructure expects the following SRV records:
+Each server should have DNS A records set. In addition to the A recordds, this Puppet Infrastructure expects the following SRV records:
 
 |===
 | SRV Records | Server
