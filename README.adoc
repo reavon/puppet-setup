@@ -4,9 +4,8 @@
 
 This script provides the necessary configurations to provide a complete Puppet and MCollective Infrastructure.The Services and Nodes in the below table illustrate how the components will be distributed.
 
-[cols="2*", options="header"]
 |===
-^| Service | Node
+| Service | Node
 
 | Puppet Server
 | `an-ua-vr-ps-001`
@@ -34,7 +33,6 @@ This script provides the necessary configurations to provide a complete Puppet a
 
 Each server should have DNS A records set. This Puppet Infrastructure expects the following SRV records:
 
-.Table DNS SRV Records
 |===
 | SRV Records | Server
 
@@ -52,7 +50,6 @@ Each server should have DNS A records set. This Puppet Infrastructure expects th
 
 The following firewall rules are required for communication between components.
 
-.Table Firewall Rules
 |===
 | Source | Destination | Port
 
@@ -89,7 +86,9 @@ http://boot.amerinap.com/ks/ks.cfg
 
 == Puppet Server Setup
 
+....
 scp `puppet-install.sh` to puppet-master and execute it.
+....
 
 == Puppet Agent Setup
 
@@ -102,24 +101,28 @@ When all servers have had a few puppet runs to work things out amongst themselve
 == mco Client Setup
 
 On your workstation:
-
- mco choria request_cert
+....
+mco choria request_cert
+....
 
 Login to the puppet-master and issue
 
- puppet cert sign $USER.mcollective
+....
+puppet cert sign $USER.mcollective
+....
 
-If you sign the certifcate within 240 seconds of the request, the mco config will be downloaded to the requesting workstation and user account automatically.
+If you sign the certificate within 240 seconds of the request, the mco config will be downloaded to the requesting workstation and user account automatically.
 
 Now on your workstation:
 
- mco puppet status
+....
+mco puppet status
+....
 
 That's it.
 
 == Misc Scripts
 
-.Table Miscellaneous Scripts
 |===
 | Script | Purpose
 
@@ -131,6 +134,7 @@ That's it.
 |===
 
 == Useful websites
+
 https://docs.puppet.com/puppet[Puppet Documentation]
 
 https://docs.puppet.com/mcollective/reference/basic/basic_cli_usage.html[MCollective CLI Usage]
