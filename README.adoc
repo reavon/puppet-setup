@@ -2,11 +2,11 @@
 
 == Infrastructure Provided
 
-This script provides the necessary configurations provide a complete Puppet and MCollective Infrastructure.The Services and Nodes in Table 1 illustrate how the components will be installed.
+This script provides the necessary configurations to provide a complete Puppet and MCollective Infrastructure.The Services and Nodes in the below table illustrate how the components will be distributed.
 
-.Table Service / Node Relationships
+[cols="2*", options="header"]
 |===
-| Service | Node
+^| Service | Node
 
 | Puppet Server
 | `an-ua-vr-ps-001`
